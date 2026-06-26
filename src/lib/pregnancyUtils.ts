@@ -10,19 +10,31 @@ export const DEFAULT_PROFILE = {
 // National Center for Child Health and Development checkup guidelines
 // (成育医療研究センターガイドライン: BMI 18.5-25 普通体重向け目標増加量)
 export const CHECKUP_SCHEDULE: CheckupItem[] = [
-  { date: "2026-07-18", week: "18w2d", minGain: 2.5, maxGain: 4.3 },
-  { date: "2026-08-15", week: "22w2d", minGain: 4.0, maxGain: 6.1 },
-  { date: "2026-09-12", week: "26w2d", minGain: 5.5, maxGain: 7.9 },
-  { date: "2026-10-10", week: "30w2d", minGain: 6.4, maxGain: 9.1 },
-  { date: "2026-11-07", week: "34w2d", minGain: 7.8, maxGain: 10.5 },
-  { date: "2026-12-05", week: "38w2d", minGain: 9.2, maxGain: 11.9 },
+  { date: "2026-07-18", week: "18w2d", minGain: 1.0, maxGain: 3.7 },
+  { date: "2026-08-15", week: "22w2d", minGain: 2.2, maxGain: 5.3 },
+  { date: "2026-09-12", week: "26w2d", minGain: 3.3, maxGain: 6.8 },
+  { date: "2026-10-10", week: "30w2d", minGain: 5.0, maxGain: 8.5 },
+  { date: "2026-11-07", week: "34w2d", minGain: 6.8, maxGain: 10.3 },
+  { date: "2026-12-05", week: "38w2d", minGain: 9.0, maxGain: 12.5 },
 ];
 
 export const WEEKLY_GUIDE = [
-  [10, 0.5, 1.5], [12, 0.8, 2.0], [14, 1.2, 2.7], [16, 1.8, 3.5],
-  [18, 2.5, 4.3], [20, 3.2, 5.2], [22, 4.0, 6.1], [24, 4.8, 7.0],
-  [26, 5.5, 7.9], [28, 6.0, 8.5], [30, 6.4, 9.1], [32, 7.0, 9.8],
-  [34, 7.8, 10.5], [36, 8.5, 11.2], [38, 9.2, 11.9], [40, 10.0, 13.0],
+  [5,  -0.5, 0.5],
+  [8,  -0.3, 1.0],
+  [10,  0.0, 1.5],
+  [12,  0.2, 2.0],
+  [14,  0.4, 2.4],
+  [15,  0.5, 2.8],
+  [18,  1.0, 3.5],
+  [20,  1.5, 4.5],
+  [22,  2.2, 5.3],
+  [25,  3.0, 6.5],
+  [28,  4.2, 7.6],
+  [30,  5.0, 8.5],
+  [32,  6.0, 9.5],
+  [35,  7.5, 11.0],
+  [38,  9.0, 12.5],
+  [40,  10.0, 13.0],
 ];
 
 export function getRecommendedGain(weeks: number) {
@@ -61,7 +73,6 @@ export function getWeekLabel(dateStr: string, lmpDateStr: string): string {
 }
 
 export function getNextCheckup(todayStr: string): CheckupItem {
-  // Finds the first checkup date that is >= todayStr, or the last one if none are in the future
   const found = CHECKUP_SCHEDULE.find(c => c.date >= todayStr);
   return found || CHECKUP_SCHEDULE[CHECKUP_SCHEDULE.length - 1];
 }
@@ -78,7 +89,6 @@ export const STORAGE_KEYS = {
 
 export async function loadData<T>(key: string, defaultValue: T): Promise<T> {
   try {
-    // Check if window.storage exists (for sandbox wrappers), or fallback to localStorage
     const storageObj = (window as any).storage;
     if (storageObj && typeof storageObj.get === "function") {
       try {
@@ -88,8 +98,6 @@ export async function loadData<T>(key: string, defaultValue: T): Promise<T> {
         console.warn(`container storage.get failed for key ${key}, falling back to localStorage:`, innerErr);
       }
     }
-    
-    // Standard browser storage
     const localVal = localStorage.getItem(key);
     return localVal ? JSON.parse(localVal) : defaultValue;
   } catch (error) {
@@ -109,7 +117,6 @@ export async function saveData<T>(key: string, value: T): Promise<void> {
         console.warn(`container storage.set failed for key ${key}, falling back to localStorage:`, innerErr);
       }
     }
-    
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.error(`Error saving storage data for key ${key}:`, error);
