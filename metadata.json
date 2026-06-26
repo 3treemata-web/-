@@ -1,0 +1,6 @@
+{
+  "name": "Pregnancy Tracker",
+  "description": "妊娠中の体重、日々の食事や運動を楽しく記録し、成育医療センターの体重増加曲線と比較しながら、AIによる健康的なアドバイスを受け取ることができるパーソナルアシスタントアプリです。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

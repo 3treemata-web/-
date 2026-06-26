@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile containing pre-pregnancy physical state",
+      "type": "object",
+      "properties": {
+        "prePregnancyWeight": { "type": "number", "description": "Pre-pregnancy weight in kg" },
+        "height": { "type": "number", "description": "Height in cm" },
+        "lmp": { "type": "string", "description": "Last menstrual period start date (YYYY-MM-DD)" }
+      },
+      "required": ["prePregnancyWeight", "height", "lmp"]
+    },
+    "WeightEntry": {
+      "title": "WeightEntry",
+      "description": "Daily or periodic weight measurement",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "description": "Measurement date (YYYY-MM-DD)" },
+        "weight": { "type": "number", "description": "Weight in kg" },
+        "weekLabel": { "type": "string", "description": "Pregnancy week/day label e.g., 18w2d" }
+      },
+      "required": ["date", "weight", "weekLabel"]
+    },
+    "MealEntry": {
+      "title": "MealEntry",
+      "description": "Meal entry for nutritional tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number", "description": "Unique timestamp id" },
+        "date": { "type": "string", "description": "Meal date (YYYY-MM-DD)" },
+        "time": { "type": "string", "description": "Meal time category" },
+        "content": { "type": "string", "description": "Description of the food consumed" },
+        "hourMinute": { "type": "string", "description": "Optional specific consumption time (HH:MM)" }
+      },
+      "required": ["id", "date", "time", "content"]
+    },
+    "ExerciseEntry": {
+      "title": "ExerciseEntry",
+      "description": "Exercise / activity tracking record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number", "description": "Unique timestamp id" },
+        "date": { "type": "string", "description": "Exercise date (YYYY-MM-DD)" },
+        "content": { "type": "string", "description": "Description of the physical activity" },
+        "mins": { "type": "number", "description": "Duration in minutes" }
+      },
+      "required": ["id", "date", "content", "mins"]
+    },
+    "MemoEntry": {
+      "title": "MemoEntry",
+      "description": "General daily notes/memo tracker records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number", "description": "Unique timestamp id" },
+        "date": { "type": "string", "description": "Memo date (YYYY-MM-DD)" },
+        "content": { "type": "string", "description": "Description / content of the general memo" }
+      },
+      "required": ["id", "date", "content"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Advisor counselor chat messages",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Message ID" },
+        "sender": { "type": "string", "description": "user or ai" },
+        "text": { "type": "string", "description": "Message content" },
+        "timestamp": { "type": "number", "description": "Epoch timestamp" }
+      },
+      "required": ["id", "sender", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/profile/config": {
+      "schema": "UserProfile",
+      "description": "Detailed user physical stats and pregnancy timeline settings"
+    },
+    "/users/{userId}/weights/{date}": {
+      "schema": "WeightEntry",
+      "description": "List of weight entries logged by the user"
+    },
+    "/users/{userId}/meals/{mealId}": {
+      "schema": "MealEntry",
+      "description": "List of food tracker records logged by the user"
+    },
+    "/users/{userId}/exercises/{exerciseId}": {
+      "schema": "ExerciseEntry",
+      "description": "List of exercise tracking records logged by the user"
+    },
+    "/users/{userId}/memos/{memoId}": {
+      "schema": "MemoEntry",
+      "description": "General journal and notes written by the user"
+    },
+    "/users/{userId}/chats/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Chat log entries exchanged with the pregnancy companion"
+    }
+  }
+}
